@@ -2,6 +2,7 @@
 
 use Adbar\Dot;
 use App\Factory\SlachTraceFactory;
+use GuzzleHttp\Client;
 use SlashTrace\SlashTrace;
 use Slim\App;
 use Slim\Factory\AppFactory;
@@ -9,6 +10,7 @@ use Psr\Container\ContainerInterface;
 use Slim\Views\Twig;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
+use Symfony\Component\DomCrawler\Crawler;
 use function DI\factory;
 
 
@@ -56,4 +58,23 @@ return [
         SlachTraceFactory::class,
         'create',
     ]),
+
+    Crawler::class => function(ContainerInterface $container) {
+        return new Crawler();
+    },
+
+    Client::class => function(ContainerInterface $container) {
+        return new Client(
+            [
+                'base_uri' => 'https://statusinvest.com.br/acoes/',
+                'headers' => [
+                    'User-Agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0',
+                    'Access-Control-Allow-Origin' => '*',
+                    'Access-Control-Allow-Methods' => 'GET',
+                    'Access-Control-Allow-Headers' => 'Content-Type',
+                    'Access-Control-Max-Age' => '3600',
+                ]
+            ]
+        );
+    }
 ];
