@@ -31,7 +31,8 @@ $settings['view'] = [
     ],
 
     'settings' => [
-        'cache' => $settings['root'] . '/storage/cache/views',
+//        'cache' => $settings['root'] . '/storage/cache/views',
+        'cache' => false,
         'debug' => true,
         'auto_reload' => true,
     ],
