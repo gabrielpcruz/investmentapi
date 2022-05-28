@@ -40,7 +40,7 @@ $settings['view'] = [
 $settings['sites_scraping'] = [
     'stocks' => [
         'https://statusinvest.com.br/acoes/',
-//        'https://www.suno.com.br/acoes/',
+        'https://www.suno.com.br/acoes/',
     ],
 
     'funds' => [

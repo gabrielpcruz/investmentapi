@@ -42,13 +42,13 @@ class Stokcs extends ControllerApi
         $html = $this->stockSearcher->addUri($ticker)->search();
 
         $baseUri = $this->stockSearcher->baseUri();
-        $scraperClass = ScraperFactory::getScraperByUri($baseUri);
 
-        /** @var Scraper $scraper */
-        $scraper = App::getInstace()->getContainer()->get($scraperClass);
+        $scraper = ScraperFactory::buildByUri($baseUri);
+
         $scraper->addHtml($html);
 
         $stock = [
+            'font' => $baseUri,
             'ticker' => strtoupper($ticker),
             'price' => $scraper->price(),
             'valuation' => [
