@@ -3,33 +3,31 @@
 namespace App\Http\Api;
 
 use App\Http\ControllerApi;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Stream;
+use App\Service\Stock\StockScraper;
+use App\Service\Stock\StockSearcher;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Symfony\Component\DomCrawler\Crawler;
 
 class Stokcs extends ControllerApi
 {
     /**
-     * @var Crawler
+     * @var StockSearcher
      */
-    private Crawler $crawler;
+    private StockSearcher $stockSearcher;
 
     /**
-     * @var Client
+     * @var StockScraper
      */
-    private Client $client;
+    private StockScraper $stockScraper;
 
     /**
-     * @param Crawler $crawler
-     * @param Client $client
+     * @param StockScraper $stockScraper
+     * @param StockSearcher $stockSearcher
      */
-    public function __construct(Crawler $crawler, Client $client)
+    public function __construct(StockScraper $stockScraper, StockSearcher $stockSearcher)
     {
-        $this->crawler = $crawler;
-        $this->client = $client;
+        $this->stockSearcher = $stockSearcher;
+        $this->stockScraper = $stockScraper;
     }
 
     /**
@@ -43,23 +41,17 @@ class Stokcs extends ControllerApi
         $ticker = reset($ticker);
 
         try {
-            $requestHtml = $this->client->get(strtolower($ticker));
+            $html = $this->stockSearcher->addUri($ticker)->search();
 
-            $stream = $requestHtml->getBody();
-            $html = $stream->getContents();
-            $stream->detach();
-            $this->crawler->add($html);
-            $price = $this->crawler->filter("div[title='Valor atual do ativo'] > strong");
-            $dy = $this->crawler->filter("div[title='Indicador utilizado para relacionar os proventos pagos por uma companhia e o preço atual de suas ações.']");
-            $pl = $this->crawler->filter("div[title='Dá uma ideia do quanto o mercado está disposto a pagar pelos lucros da empresa.']");
-            $ebtd = $this->crawler->filter("div[title='O EV (Enterprise Value ou Valor da Firma), indica quanto custaria para comprar todos os ativos da companhia, descontando o caixa. Este indicador mostra quanto tempo levaria para o valor calculado no EBITDA pagar o investimento feito para compra-la.']");
+            $this->stockScraper->addHtml($html);
 
+            // Organizando
             $stock = [
                 'ticker' => strtoupper($ticker),
-                'price' => str_replace(',', '.', $price->text()),
-                'dividend_yield' => $dy->first()->filter('strong')->text(),
-                'pl' => $pl->first()->filter('strong')->text(),
-                'evebitda' => $ebtd->first()->filter('strong')->text(),
+                'price' => $this->stockScraper->price(),
+                'dividend_yield' => $this->stockScraper->dividendYield(),
+                'price_by_pofit' => $this->stockScraper->priceByProfit(),
+                'evebitda' => $this->stockScraper->ebitda(),
             ];
 
         } catch (\Throwable $exception) {

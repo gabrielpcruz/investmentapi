@@ -2,15 +2,18 @@
 
 use Adbar\Dot;
 use App\Factory\SlachTraceFactory;
+use App\Service\Fund\FundSearcher;
+use App\Service\Stock\StockScraper;
+use App\Service\Stock\StockSearcher;
 use GuzzleHttp\Client;
+use Psr\Container\ContainerInterface;
 use SlashTrace\SlashTrace;
 use Slim\App;
 use Slim\Factory\AppFactory;
-use Psr\Container\ContainerInterface;
 use Slim\Views\Twig;
+use Symfony\Component\DomCrawler\Crawler;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
-use Symfony\Component\DomCrawler\Crawler;
 use function DI\factory;
 
 
@@ -63,18 +66,40 @@ return [
         return new Crawler();
     },
 
-    Client::class => function(ContainerInterface $container) {
-        return new Client(
-            [
-                'base_uri' => 'https://statusinvest.com.br/acoes/',
-                'headers' => [
-                    'User-Agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0',
-                    'Access-Control-Allow-Origin' => '*',
-                    'Access-Control-Allow-Methods' => 'GET',
-                    'Access-Control-Allow-Headers' => 'Content-Type',
-                    'Access-Control-Max-Age' => '3600',
-                ]
-            ]
-        );
-    }
+    StockSearcher::class => function(ContainerInterface $container) {
+        $settings = $container->get('settings');
+
+        $sites =  $settings->get('sites_scraping.stocks');
+
+        shuffle($sites);
+
+        $client = new Client([
+            'base_uri' => reset($sites),
+            'headers' => $settings->get('sites_scraping.headers')
+        ]);
+
+        return new StockSearcher($client);
+    },
+
+    FundSearcher::class => function(ContainerInterface $container) {
+        $settings = $container->get('settings');
+
+        $sites =  $settings->get('sites_scraping.funds');
+
+        shuffle($sites);
+
+        $client = new Client([
+            'base_uri' => reset($sites),
+            'headers' => $settings->get('sites_scraping.headers')
+        ]);
+
+        return new StockSearcher($client);
+    },
+
+    StockScraper::class => function(ContainerInterface $container) {
+        $crawler = $container->get(Crawler::class);
+
+        return new StockScraper($crawler);
+    },
+
 ];

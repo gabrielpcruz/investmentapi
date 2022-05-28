@@ -58,7 +58,7 @@ class App
         }
 
         $errorMiddleware = $app->addErrorMiddleware(true, true, true);
-        $errorMiddleware->setDefaultErrorHandler(DefaultErrorHandler::class);
+//        $errorMiddleware->setDefaultErrorHandler(DefaultErrorHandler::class);
 
         return $app;
     }
