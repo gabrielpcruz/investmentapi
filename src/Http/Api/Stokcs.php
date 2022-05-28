@@ -2,10 +2,8 @@
 
 namespace App\Http\Api;
 
-use App\App;
 use App\Factory\ScraperFactory;
 use App\Http\ControllerApi;
-use App\Service\Scraper;
 use App\Service\Stock\StockSearcher;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;

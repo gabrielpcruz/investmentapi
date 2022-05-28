@@ -9,7 +9,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class Home extends ControllerSite
+class Documentation extends ControllerSite
 {
     /**
      * @param Request $request
@@ -23,7 +23,7 @@ class Home extends ControllerSite
     {
         return $this->view(
             $response,
-            '@site/home/index',
+            '@site/documentation/index',
             [
                 'data' => date('H:i')
             ]

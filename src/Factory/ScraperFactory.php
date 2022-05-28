@@ -5,6 +5,7 @@ namespace App\Factory;
 use App\App;
 use App\Service\ScraperInterface;
 use App\Service\Stock\StatusInvestStockScraper;
+use App\Service\Stock\SunoStockScraper;
 use DI\DependencyException;
 use DI\NotFoundException;
 use InvalidArgumentException;
@@ -18,7 +19,7 @@ class ScraperFactory
      */
     private static array $scrapers = [
         'statusinvest.com.br' => StatusInvestStockScraper::class,
-        'www.suno.com.br' => StatusInvestStockScraper::class,
+        'www.suno.com.br' => SunoStockScraper::class,
     ];
 
     /**
