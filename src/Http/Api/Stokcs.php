@@ -40,26 +40,23 @@ class Stokcs extends ControllerApi
     {
         $ticker = reset($ticker);
 
-        try {
-            $html = $this->stockSearcher->addUri($ticker)->search();
+        $html = $this->stockSearcher->addUri($ticker)->search();
 
-            $this->stockScraper->addHtml($html);
+        $this->stockScraper->addHtml($html);
 
-            // Organizando
-            $stock = [
-                'ticker' => strtoupper($ticker),
-                'price' => $this->stockScraper->price(),
+        $stock = [
+            'ticker' => strtoupper($ticker),
+            'price' => $this->stockScraper->price(),
+            'valuation' => [
                 'dividend_yield' => $this->stockScraper->dividendYield(),
                 'price_by_pofit' => $this->stockScraper->priceByProfit(),
                 'evebitda' => $this->stockScraper->ebitda(),
-            ];
-
-        } catch (\Throwable $exception) {
-            $stock = [
-                'message' => 'error'
-            ];
-        }
-
+                'price_by_stock' => $this->stockScraper->priceByStock(),
+            ],
+            'indebtedness' => [
+                ''
+            ]
+        ];
 
         return $this->responseJSON($response, $stock);
     }

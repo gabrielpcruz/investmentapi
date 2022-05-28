@@ -11,7 +11,6 @@ abstract class Scraper implements ScraperInterface
      */
     protected Crawler $crawler;
 
-
     /**
      * @param Crawler $crawler
      */

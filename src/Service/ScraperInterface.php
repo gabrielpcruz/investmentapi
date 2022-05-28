@@ -29,4 +29,9 @@ interface ScraperInterface
      * @return string
      */
     public function ebitda(): string;
+
+    /**
+     * @return string
+     */
+    public function priceByStock() : string;
 }
