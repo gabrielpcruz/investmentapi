@@ -14,4 +14,9 @@ interface SearcherInterface
      * @return string
      */
     public function search(): string;
+
+    /**
+     * @return string
+     */
+    public function baseUri() : string;
 }

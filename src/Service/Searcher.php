@@ -53,4 +53,12 @@ class Searcher implements SearcherInterface
 
         return $response;
     }
+
+    /**
+     * @return string
+     */
+    public function baseUri(): string
+    {
+        return $this->client->getConfig('base_uri')->getHost();
+    }
 }

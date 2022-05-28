@@ -2,9 +2,13 @@
 
 namespace App\Http\Api;
 
+use App\App;
+use App\Factory\ScraperFactory;
 use App\Http\ControllerApi;
-use App\Service\Stock\StockScraper;
+use App\Service\Scraper;
 use App\Service\Stock\StockSearcher;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -16,18 +20,11 @@ class Stokcs extends ControllerApi
     private StockSearcher $stockSearcher;
 
     /**
-     * @var StockScraper
-     */
-    private StockScraper $stockScraper;
-
-    /**
-     * @param StockScraper $stockScraper
      * @param StockSearcher $stockSearcher
      */
-    public function __construct(StockScraper $stockScraper, StockSearcher $stockSearcher)
+    public function __construct(StockSearcher $stockSearcher)
     {
         $this->stockSearcher = $stockSearcher;
-        $this->stockScraper = $stockScraper;
     }
 
     /**
@@ -35,6 +32,8 @@ class Stokcs extends ControllerApi
      * @param Response $response
      * @param $ticker
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function show(Request $request, Response $response, $ticker): Response
     {
@@ -42,16 +41,21 @@ class Stokcs extends ControllerApi
 
         $html = $this->stockSearcher->addUri($ticker)->search();
 
-        $this->stockScraper->addHtml($html);
+        $baseUri = $this->stockSearcher->baseUri();
+        $scraperClass = ScraperFactory::getScraperByUri($baseUri);
+
+        /** @var Scraper $scraper */
+        $scraper = App::getInstace()->getContainer()->get($scraperClass);
+        $scraper->addHtml($html);
 
         $stock = [
             'ticker' => strtoupper($ticker),
-            'price' => $this->stockScraper->price(),
+            'price' => $scraper->price(),
             'valuation' => [
-                'dividend_yield' => $this->stockScraper->dividendYield(),
-                'price_by_pofit' => $this->stockScraper->priceByProfit(),
-                'evebitda' => $this->stockScraper->ebitda(),
-                'price_by_stock' => $this->stockScraper->priceByStock(),
+                'dividend_yield' => $scraper->dividendYield(),
+                'price_by_pofit' => $scraper->priceByProfit(),
+                'evebitda' => $scraper->ebitda(),
+                'price_by_stock' => $scraper->priceByStock(),
             ],
             'indebtedness' => [
                 ''

@@ -3,6 +3,7 @@
 use Adbar\Dot;
 use App\Factory\SlachTraceFactory;
 use App\Service\Fund\FundSearcher;
+use App\Service\Stock\StatusInvestStockScraper;
 use App\Service\Stock\StockScraper;
 use App\Service\Stock\StockSearcher;
 use GuzzleHttp\Client;
@@ -96,10 +97,10 @@ return [
         return new StockSearcher($client);
     },
 
-    StockScraper::class => function(ContainerInterface $container) {
+    StatusInvestStockScraper::class => function(ContainerInterface $container) {
         $crawler = $container->get(Crawler::class);
 
-        return new StockScraper($crawler);
+        return new StatusInvestStockScraper($crawler);
     },
 
 ];
