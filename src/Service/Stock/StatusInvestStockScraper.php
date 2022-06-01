@@ -2,7 +2,7 @@
 
 namespace App\Service\Stock;
 
-class StatusInvestFundScraper extends StockScraper implements FundScraperInterface
+class StatusInvestStockScraper extends StockScraper implements StockScraperInterface
 {
     private const PRICE = "div[title='Valor atual do ativo'] > strong";
     private const DIVIDEND_YIELD = "div[title='Indicador utilizado para relacionar os proventos pagos por uma companhia e o preço atual de suas ações.']";
