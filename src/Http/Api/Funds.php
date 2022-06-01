@@ -2,7 +2,7 @@
 
 namespace App\Http\Api;
 
-use App\Factory\ScraperFactory;
+use App\Builder\ScraperBuilder;
 use App\Http\ControllerApi;
 use App\Service\Fund\FundSearcher;
 use Psr\Container\ContainerExceptionInterface;
@@ -41,7 +41,7 @@ class Funds extends ControllerApi
 
         $baseUri = $this->fundSearcher->baseUri();
 
-        $scraper = ScraperFactory::buildByUri($baseUri);
+        $scraper = ScraperBuilder::buildByUri($baseUri);
 
         $scraper->addHtml($html);
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Factory;
+namespace App\Builder;
 
 use App\App;
 use App\Service\Fund\FundsExplorerFundScraper;
 use App\Service\ScraperInterface;
-use App\Service\Stock\StatusInvestFundScraper;
+use App\Service\Stock\StatusInvestStockScraper;
 use App\Service\Stock\SunoStockScraper;
 use DI\DependencyException;
 use DI\NotFoundException;
@@ -13,13 +13,13 @@ use InvalidArgumentException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class ScraperFactory
+class ScraperBuilder
 {
     /**
      * @var array|string[]
      */
     private static array $scrapers = [
-        'statusinvest.com.br' => StatusInvestFundScraper::class,
+        'statusinvest.com.br' => StatusInvestStockScraper::class,
         'www.suno.com.br' => SunoStockScraper::class,
         'www.fundsexplorer.com.br' => FundsExplorerFundScraper::class,
     ];
