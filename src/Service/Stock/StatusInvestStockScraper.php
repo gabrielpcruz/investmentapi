@@ -27,7 +27,9 @@ class StatusInvestStockScraper extends StockScraper implements StockScraperInter
     {
         $dividendYield = $this->crawler->filter(self::DIVIDEND_YIELD);
 
-        return $dividendYield->first()->filter('strong')->text();
+        $dividendYield = $dividendYield->first()->filter('strong');
+
+        return str_replace(',', '.', $dividendYield->text());
     }
 
     /**
@@ -37,7 +39,9 @@ class StatusInvestStockScraper extends StockScraper implements StockScraperInter
     {
         $priceByProfit = $this->crawler->filter(self::PRICE_BY_PROFIT);
 
-        return $priceByProfit->first()->filter('strong')->text();
+        $priceByProfit = $priceByProfit->first()->filter('strong');
+
+        return str_replace(',', '.', $priceByProfit->text());
     }
 
     /**
@@ -47,7 +51,9 @@ class StatusInvestStockScraper extends StockScraper implements StockScraperInter
     {
         $ebitda = $this->crawler->filter(self::EBITDA);
 
-        return $ebitda->first()->filter('strong')->text();
+        $ebitda =  $ebitda->first()->filter('strong');
+
+        return str_replace(',', '.', $ebitda->text());
     }
 
     /**
@@ -57,6 +63,8 @@ class StatusInvestStockScraper extends StockScraper implements StockScraperInter
     {
         $priceByStock = $this->crawler->filter(self::PRICE_BY_STOCK);
 
-        return $priceByStock->first()->filter('strong')->text();
+        $priceByStock = $priceByStock->first()->filter('strong');
+
+        return str_replace(',', '.', $priceByStock->text());
     }
 }

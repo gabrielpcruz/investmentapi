@@ -11,8 +11,9 @@
 </head>
 <body>
 <div id="swagger-ui"></div>
-<div id="template"> {{ template }}</div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script
         src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.35.0/swagger-ui-standalone-preset.min.js"
         integrity="sha512-WI88XrK/8xukiZdnlwlGrcdIyD9qgNXL15LiWbVnq0qpgd/YzRiewFplb5VyRxsbwZf7wRU5BnkCeNP/OV5CEg=="
@@ -21,24 +22,25 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.35.0/swagger-ui-bundle.min.js"
         integrity="sha512-7aNGLo3pjgERnsRoSSRrr8Xy6lX8QeKJG3sh8qAeKDvRCExTvDxG6IPRNrCoY0EZG9B5BzGWV5l0xK9DqSSu+w=="
         crossorigin="anonymous"></script>
+
 <script>
-    window.onload = function () {
+    $(() => {
         window.ui = SwaggerUIBundle({
-            spec: '{{ template|raw }}',
+            spec: {{ template|raw }},
             dom_id: '#swagger-ui',
-            deepLinking: true,
-            supportedSubmitMethods: [],
+            deepLinking: false,
+            tryItOutEnabled: true,
+            supportedSubmitMethods: ["get"],
             presets: [
                 SwaggerUIBundle.presets.apis,
             ],
             plugins: [
-                SwaggerUIBundle.plugins.DownloadUrl,
-                function() {
+                function () {
                     return {
                         statePlugins: {
                             spec: {
                                 wrapSelectors: {
-                                    allowTryItOutFor: () => () => false
+                                    allowTryItOutFor: () => () => true
                                 }
                             }
                         }
@@ -46,7 +48,7 @@
                 }
             ],
         })
-    }
+    })
 </script>
 </body>
 </html>

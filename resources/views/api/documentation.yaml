@@ -1,24 +1,101 @@
 openapi: 3.0.0
 info:
-  title: Sample API
-  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  title: Investment API
+  description: Consult relevant information to help in your decision making. Invest consciously.
   version: 0.1.9
 servers:
-  - url: http://api.example.com/v1
-    description: Optional server description, e.g. Main (production) server
-  - url: http://staging-api.example.com
-    description: Optional server description, e.g. Internal staging server for testing
+  - url: http://localhost
+    description: Production server resquest
+
 paths:
-  /users:
+  /v1/stocks/{ticker}:
     get:
-      summary: Returns a list of users.
-      description: Optional extended description in CommonMark or HTML.
+      summary: Returns informations about the stock improved.
+      parameters:
+        - in: path
+          name: ticker
+          required: true
+          description: Ticker of stock, example PETR4
+          allowEmptyValue: false
+          schema:
+            type: string
       responses:
         '200':    # status code
-          description: A JSON array of user names
+          description: A JSON array with stocks informations
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: string
+                type: object
+                properties:
+                  font:
+                    type: string
+                    example: 'https://statusinvest.com.br'
+                  ticker:
+                    type: string
+                    example: 'PETR4'
+                  price:
+                    type: number
+                    example: 9.99
+                  valuation:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        dividend_yield:
+                          type: string
+                          example: "99.99%"
+                        price_by_pofit:
+                          type: number
+                          example: 9.99
+                        evebitda:
+                          type: string
+                          example: "30.00%"
+                        price_by_stock:
+                          type: number
+                          example: 9.99
+
+  /v1/funds/{ticker}:
+    get:
+      summary: Returns informations about the stock improved.
+      parameters:
+        - in: path
+          name: ticker
+          required: true
+          description: Ticker of stock, example PETR4
+          allowEmptyValue: false
+          schema:
+            type: string
+      responses:
+        '200': # status code
+          description: A JSON array with stocks informations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  font:
+                    type: string
+                    example: 'https://statusinvest.com.br'
+                  ticker:
+                    type: string
+                    example: 'PETR4'
+                  price:
+                    type: number
+                    example: 9.99
+                  valuation:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        dividend_yield:
+                          type: string
+                          example: "99.99%"
+                        price_by_pofit:
+                          type: number
+                          example: 9.99
+                        evebitda:
+                          type: string
+                          example: "30.00%"
+                        price_by_stock:
+                          type: number
+                          example: 9.99
