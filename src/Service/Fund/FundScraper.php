@@ -2,33 +2,30 @@
 
 namespace App\Service\Fund;
 
-use App\Service\Scraper;
+use App\Service\ScraperInterface;
+use Symfony\Component\DomCrawler\Crawler;
 
-class FundScraper extends Scraper
+abstract class FundScraper implements ScraperInterface
 {
+    /**
+     * @var Crawler
+     */
+    protected Crawler $crawler;
 
-    public function price(): string
+    /**
+     * @param Crawler $crawler
+     */
+    public function __construct(Crawler $crawler)
     {
-        // TODO: Implement price() method.
+        $this->crawler = $crawler;
     }
 
-    public function dividendYield(): string
+    /**
+     * @param string $html
+     * @return void
+     */
+    public function addHtml(string $html): void
     {
-        // TODO: Implement dividendYield() method.
-    }
-
-    public function priceByProfit(): string
-    {
-        // TODO: Implement priceByProfit() method.
-    }
-
-    public function ebitda(): string
-    {
-        // TODO: Implement ebitda() method.
-    }
-
-    public function priceByStock(): string
-    {
-        // TODO: Implement priceByStock() method.
+        $this->crawler->add($html);
     }
 }

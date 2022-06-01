@@ -3,8 +3,9 @@
 namespace App\Factory;
 
 use App\App;
+use App\Service\Fund\FundsExplorerFundScraper;
 use App\Service\ScraperInterface;
-use App\Service\Stock\StatusInvestStockScraper;
+use App\Service\Stock\StatusInvestFundScraper;
 use App\Service\Stock\SunoStockScraper;
 use DI\DependencyException;
 use DI\NotFoundException;
@@ -18,8 +19,9 @@ class ScraperFactory
      * @var array|string[]
      */
     private static array $scrapers = [
-        'statusinvest.com.br' => StatusInvestStockScraper::class,
+        'statusinvest.com.br' => StatusInvestFundScraper::class,
         'www.suno.com.br' => SunoStockScraper::class,
+        'www.fundsexplorer.com.br' => FundsExplorerFundScraper::class,
     ];
 
     /**

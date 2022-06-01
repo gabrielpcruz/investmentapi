@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Api\Funds;
 use Slim\App;
 
 use App\Http\Site\Documentation;
@@ -12,6 +13,9 @@ return function (App $app) {
     $app->get('/docs', [Documentation::class, 'index']);
 
 
-    // Api
+    // Stocks
     $app->get('/v1/stocks/{stock}', [Stokcs::class, 'show']);
+
+    // Funds
+    $app->get('/v1/funds/{fund}', [Funds::class, 'show']);
 };

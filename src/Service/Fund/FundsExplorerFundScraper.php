@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service\Stock;
+namespace App\Service\Fund;
 
-class StatusInvestStockScraper extends StockScraper implements StockScraperInterface
+class FundsExplorerFundScraper extends FundScraper implements FundScraperInterface
 {
-    private const PRICE = "div[title='Valor atual do ativo'] > strong";
+    private const PRICE = "#stock-price > .price";
     private const DIVIDEND_YIELD = "div[title='Indicador utilizado para relacionar os proventos pagos por uma companhia e o preço atual de suas ações.']";
     private const PRICE_BY_PROFIT = "div[title='Dá uma ideia do quanto o mercado está disposto a pagar pelos lucros da empresa.']";
     private const EBITDA = "div[title='O EV (Enterprise Value ou Valor da Firma), indica quanto custaria para comprar todos os ativos da companhia, descontando o caixa. Este indicador mostra quanto tempo levaria para o valor calculado no EBITDA pagar o investimento feito para compra-la.']";
@@ -25,11 +25,7 @@ class StatusInvestStockScraper extends StockScraper implements StockScraperInter
      */
     public function dividendYield(): string
     {
-        $dividendYield = $this->crawler->filter(self::DIVIDEND_YIELD);
-
-        $dividendYield = $dividendYield->first()->filter('strong');
-
-        return str_replace(',', '.', $dividendYield->text());
+        return '';
     }
 
     /**
@@ -37,11 +33,7 @@ class StatusInvestStockScraper extends StockScraper implements StockScraperInter
      */
     public function priceByProfit(): string
     {
-        $priceByProfit = $this->crawler->filter(self::PRICE_BY_PROFIT);
-
-        $priceByProfit = $priceByProfit->first()->filter('strong');
-
-        return str_replace(',', '.', $priceByProfit->text());
+        return '';
     }
 
     /**
@@ -49,11 +41,7 @@ class StatusInvestStockScraper extends StockScraper implements StockScraperInter
      */
     public function ebitda(): string
     {
-        $ebitda = $this->crawler->filter(self::EBITDA);
-
-        $ebitda =  $ebitda->first()->filter('strong');
-
-        return str_replace(',', '.', $ebitda->text());
+        return '';
     }
 
     /**
@@ -61,10 +49,6 @@ class StatusInvestStockScraper extends StockScraper implements StockScraperInter
      */
     public function priceByStock(): string
     {
-        $priceByStock = $this->crawler->filter(self::PRICE_BY_STOCK);
-
-        $priceByStock = $priceByStock->first()->filter('strong');
-
-        return str_replace(',', '.', $priceByStock->text());
+        return '';
     }
 }

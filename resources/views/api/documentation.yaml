@@ -4,7 +4,7 @@ info:
   description: Consult relevant information to help in your decision making. Invest consciously.
   version: 0.1.9
 servers:
-  - url: http://localhost
+  - url: /
     description: Production server resquest
 
 paths:
