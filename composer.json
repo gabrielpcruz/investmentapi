@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "php": "^7.4.0",
+    "php": "7.4.0",
     "slim/slim": "4.*",
     "guzzlehttp/psr7": "^2",
     "php-di/php-di": "*",
