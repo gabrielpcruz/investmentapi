@@ -31,6 +31,9 @@
       "src/helpers.php"
     ]
   },
+  "post-install-cmd": [
+    "chmod -R 775 public/"
+  ],
   "require-dev": {
     "codeception/codeception": "^4.1",
     "codeception/module-asserts": "^1.0.0"
