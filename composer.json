@@ -19,6 +19,7 @@
     "slashtrace/slashtrace": "^1.1",
     "fig/http-message-util": "^1.1",
     "symfony/dom-crawler": "^5.4",
+    "symfony/css-selector": "^5.4",
     "symfony/yaml" : "^5.4",
     "guzzlehttp/guzzle": "^7.0",
     "ext-http": "*",
