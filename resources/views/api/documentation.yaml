@@ -61,7 +61,7 @@ paths:
         - in: path
           name: ticker
           required: true
-          description: Ticker of stock, example PETR4
+          description: Ticker of funds, example XPLG11
           allowEmptyValue: false
           schema:
             type: string
